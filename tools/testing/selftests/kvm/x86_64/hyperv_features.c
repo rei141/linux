@@ -12,6 +12,7 @@
 #include "kvm_util.h"
 #include "processor.h"
 #include "hyperv.h"
+#include "coverage.h"
 
 /*
  * HYPERV_CPUID_ENLIGHTMENT_INFO.EBX is not a 'feature' CPUID leaf
@@ -681,9 +682,11 @@ static void guest_test_hcalls_access(void)
 
 int main(void)
 {
+	coverage_start();
 	pr_info("Testing access to Hyper-V specific MSRs\n");
 	guest_test_msrs_access();
 
 	pr_info("Testing access to Hyper-V hypercalls\n");
 	guest_test_hcalls_access();
+	coverage_end();
 }

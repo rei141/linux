@@ -16,6 +16,7 @@
 
 #include "kvm_util.h"
 #include "vmx.h"
+#include "coverage.h"
 
 #define PMU_CAP_FW_WRITES	(1ULL << 13)
 #define PMU_CAP_LBR_FMT		0x3f
@@ -52,6 +53,7 @@ int main(int argc, char *argv[])
 	host_cap.capabilities = kvm_get_feature_msr(MSR_IA32_PERF_CAPABILITIES);
 	host_cap.capabilities &= (PMU_CAP_FW_WRITES | PMU_CAP_LBR_FMT);
 
+	coverage_start();
 	/* Create VM */
 	vm = vm_create_with_one_vcpu(&vcpu, guest_code);
 
@@ -91,4 +93,5 @@ int main(int argc, char *argv[])
 
 	printf("Completed perf capability tests.\n");
 	kvm_vm_free(vm);
+	coverage_end();
 }

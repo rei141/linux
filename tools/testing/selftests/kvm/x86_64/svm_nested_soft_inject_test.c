@@ -17,6 +17,7 @@
 #include "processor.h"
 #include "svm_util.h"
 #include "test_util.h"
+#include "coverage.h"
 
 #define INT_NR			0x20
 
@@ -199,6 +200,7 @@ done:
 
 int main(int argc, char *argv[])
 {
+	coverage_start();
 	TEST_REQUIRE(kvm_cpu_has(X86_FEATURE_SVM));
 
 	TEST_ASSERT(kvm_cpu_has(X86_FEATURE_NRIPS),
@@ -209,5 +211,6 @@ int main(int argc, char *argv[])
 	run_test(false);
 	run_test(true);
 
+	coverage_end();
 	return 0;
 }

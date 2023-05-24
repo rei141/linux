@@ -12,6 +12,7 @@
 #include "kvm_util.h"
 #include "processor.h"
 #include "hyperv.h"
+#include "coverage.h"
 
 /* Any value is fine */
 #define EXT_CAPABILITIES 0xbull
@@ -43,6 +44,7 @@ int main(void)
 	struct kvm_vm *vm;
 	uint64_t *outval;
 	struct ucall uc;
+	coverage_start();
 
 	/* Verify if extended hypercalls are supported */
 	if (!kvm_cpuid_has(kvm_get_supported_hv_cpuid(),
@@ -93,5 +95,6 @@ int main(void)
 	}
 
 	kvm_vm_free(vm);
+	coverage_end();
 	return 0;
 }

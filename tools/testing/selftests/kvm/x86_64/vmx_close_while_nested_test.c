@@ -12,6 +12,7 @@
 #include "kvm_util.h"
 #include "processor.h"
 #include "vmx.h"
+#include "coverage.h"
 
 #include <string.h>
 #include <sys/ioctl.h>
@@ -51,6 +52,7 @@ int main(int argc, char *argv[])
 	struct kvm_vcpu *vcpu;
 	struct kvm_vm *vm;
 
+	coverage_start();
 	TEST_REQUIRE(kvm_cpu_has(X86_FEATURE_VMX));
 
 	vm = vm_create_with_one_vcpu(&vcpu, l1_guest_code);
@@ -77,4 +79,5 @@ int main(int argc, char *argv[])
 			TEST_FAIL("Unknown ucall %lu", uc.cmd);
 		}
 	}
+	coverage_end();
 }

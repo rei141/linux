@@ -10,6 +10,7 @@
 #include "test_util.h"
 #include "kvm_util.h"
 #include "processor.h"
+#include "coverage.h"
 
 #include <stdint.h>
 #include <time.h>
@@ -435,6 +436,7 @@ int main(int argc, char *argv[])
 	pthread_t thread;
 	bool verbose;
 	int ret;
+	coverage_start();
 
 	verbose = argc > 1 && (!strncmp(argv[1], "-v", 3) ||
 			       !strncmp(argv[1], "--verbose", 10));
@@ -1115,5 +1117,6 @@ int main(int argc, char *argv[])
 	}
 
 	kvm_vm_free(vm);
+	coverage_end();
 	return 0;
 }

@@ -11,6 +11,7 @@
 #include "kvm_util.h"
 #include "processor.h"
 #include "vmx.h"
+#include "coverage.h"
 
 #include <errno.h>
 #include <linux/kvm.h>
@@ -249,6 +250,7 @@ int main(int argc, char *argv[])
 	struct kvm_nested_state state;
 	struct kvm_vcpu *vcpu;
 
+	coverage_start();
 	have_evmcs = kvm_check_cap(KVM_CAP_HYPERV_ENLIGHTENED_VMCS);
 
 	TEST_REQUIRE(kvm_has_cap(KVM_CAP_NESTED_STATE));
@@ -296,5 +298,6 @@ int main(int argc, char *argv[])
 	test_vmx_nested_state(vcpu);
 
 	kvm_vm_free(vm);
+	coverage_end();
 	return 0;
 }

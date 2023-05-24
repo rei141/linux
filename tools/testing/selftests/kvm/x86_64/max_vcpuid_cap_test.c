@@ -8,6 +8,7 @@
  */
 
 #include "kvm_util.h"
+#include "coverage.h"
 
 #define MAX_VCPU_ID	2
 
@@ -16,6 +17,7 @@ int main(int argc, char *argv[])
 	struct kvm_vm *vm;
 	int ret;
 
+	coverage_start();
 	vm = vm_create_barebones();
 
 	/* Get KVM_CAP_MAX_VCPU_ID cap supported in KVM */
@@ -40,5 +42,6 @@ int main(int argc, char *argv[])
 	TEST_ASSERT(ret < 0, "Creating vCPU with ID > MAX_VCPU_ID should fail");
 
 	kvm_vm_free(vm);
+	coverage_end();
 	return 0;
 }

@@ -20,6 +20,7 @@
 #include "processor.h"
 #include "svm_util.h"
 #include "hyperv.h"
+#include "coverage.h"
 
 #define L2_GUEST_STACK_SIZE 256
 
@@ -159,6 +160,7 @@ int main(int argc, char *argv[])
 	struct ucall uc;
 	int stage;
 
+	coverage_start();
 	TEST_REQUIRE(kvm_cpu_has(X86_FEATURE_SVM));
 
 	/* Create VM */
@@ -198,4 +200,5 @@ int main(int argc, char *argv[])
 
 done:
 	kvm_vm_free(vm);
+	coverage_end();
 }

@@ -21,6 +21,7 @@
 #include "kvm_util.h"
 #include "processor.h"
 #include "vmx.h"
+#include "coverage.h"
 
 #define PREEMPTION_TIMER_VALUE			100000000ull
 #define PREEMPTION_TIMER_VALUE_THRESHOLD1	 80000000ull
@@ -162,6 +163,7 @@ int main(int argc, char *argv[])
 	struct ucall uc;
 	int stage;
 
+	coverage_start();
 	/*
 	 * AMD currently does not implement any VMX features, so for now we
 	 * just early out.
@@ -243,4 +245,5 @@ int main(int argc, char *argv[])
 
 done:
 	kvm_vm_free(vm);
+	coverage_end();
 }

@@ -16,6 +16,7 @@
 #include "kvm_util.h"
 #include "processor.h"
 #include "vmx.h"
+#include "coverage.h"
 
 /* The memory slot index to track dirty pages */
 #define TEST_MEM_SLOT_INDEX		1
@@ -76,6 +77,7 @@ int main(int argc, char *argv[])
 	struct ucall uc;
 	bool done = false;
 
+	coverage_start();
 	TEST_REQUIRE(kvm_cpu_has(X86_FEATURE_VMX));
 	TEST_REQUIRE(kvm_cpu_has_ept());
 
@@ -147,4 +149,5 @@ int main(int argc, char *argv[])
 			TEST_FAIL("Unknown ucall %lu", uc.cmd);
 		}
 	}
+	coverage_end();
 }

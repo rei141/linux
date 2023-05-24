@@ -8,6 +8,7 @@
 #include <string.h>
 #include "kvm_util.h"
 #include "processor.h"
+#include "coverage.h"
 
 #define UNITY                  (1ull << 30)
 #define HOST_ADJUST            (UNITY * 64)
@@ -97,6 +98,7 @@ int main(void)
 	struct kvm_vm *vm;
 	uint64_t val;
 
+	coverage_end();
 	ksft_print_header();
 	ksft_set_plan(5);
 
@@ -158,4 +160,5 @@ int main(void)
 	kvm_vm_free(vm);
 
 	ksft_finished();	/* Print results and exit() accordingly */
+	coverage_end();
 }

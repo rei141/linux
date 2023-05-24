@@ -20,6 +20,7 @@
 #include "kvm_util.h"
 #include "processor.h"
 #include "vmx.h"
+#include "coverage.h"
 
 #ifndef __x86_64__
 # error This test is 64-bit only
@@ -248,6 +249,7 @@ int main(int argc, char *argv[])
 	u32 amx_offset;
 	int stage, ret;
 
+	coverage_start();
 	/*
 	 * Note, all off-by-default features must be enabled before anything
 	 * caches KVM_GET_SUPPORTED_CPUID, e.g. before using kvm_cpu_has().
@@ -355,4 +357,5 @@ int main(int argc, char *argv[])
 	}
 done:
 	kvm_vm_free(vm);
+	coverage_end();
 }

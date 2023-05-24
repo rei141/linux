@@ -2,6 +2,7 @@
 #include "test_util.h"
 #include "kvm_util.h"
 #include "processor.h"
+#include "coverage.h"
 
 #include <signal.h>
 #include <string.h>
@@ -109,6 +110,7 @@ int main(int argc, char *argv[])
 	struct kvm_vcpu *vcpu;
 	struct kvm_vm *vm;
 
+	coverage_start();
 	TEST_REQUIRE(host_cpu_is_intel);
 	TEST_REQUIRE(!vm_is_unrestricted_guest(NULL));
 
@@ -142,4 +144,5 @@ int main(int argc, char *argv[])
 
 	set_timer();
 	run_vcpu_with_invalid_state(vcpu);
+	coverage_end();
 }

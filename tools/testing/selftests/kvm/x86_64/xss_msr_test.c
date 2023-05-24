@@ -11,6 +11,7 @@
 #include "test_util.h"
 #include "kvm_util.h"
 #include "vmx.h"
+#include "coverage.h"
 
 #define MSR_BITS      64
 
@@ -21,6 +22,7 @@ int main(int argc, char *argv[])
 	struct kvm_vcpu *vcpu;
 	uint64_t xss_val;
 	int i, r;
+	coverage_start();
 
 	/* Create VM */
 	vm = vm_create_with_one_vcpu(&vcpu, NULL);
@@ -53,4 +55,5 @@ int main(int argc, char *argv[])
 	}
 
 	kvm_vm_free(vm);
+	coverage_end();
 }

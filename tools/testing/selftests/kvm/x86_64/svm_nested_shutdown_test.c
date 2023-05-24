@@ -11,6 +11,7 @@
 #include "kvm_util.h"
 #include "processor.h"
 #include "svm_util.h"
+#include "coverage.h"
 
 static void l2_guest_code(struct svm_test_data *svm)
 {
@@ -45,6 +46,7 @@ int main(int argc, char *argv[])
 	vm_vaddr_t svm_gva;
 	struct kvm_vm *vm;
 
+	coverage_start();
 	TEST_REQUIRE(kvm_cpu_has(X86_FEATURE_SVM));
 
 	vm = vm_create_with_one_vcpu(&vcpu, l1_guest_code);
@@ -59,4 +61,5 @@ int main(int argc, char *argv[])
 	TEST_ASSERT_KVM_EXIT_REASON(vcpu, KVM_EXIT_SHUTDOWN);
 
 	kvm_vm_free(vm);
+	coverage_end();
 }

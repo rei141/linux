@@ -11,6 +11,7 @@
 #include "test_util.h"
 #include "kvm_util.h"
 #include "processor.h"
+#include "coverage.h"
 
 struct msr_data {
 	uint32_t idx;
@@ -138,6 +139,7 @@ int main(void)
 	struct kvm_vcpu *vcpu;
 	struct kvm_vm *vm;
 
+	coverage_start();
 	TEST_REQUIRE(kvm_has_cap(KVM_CAP_ENFORCE_PV_FEATURE_CPUID));
 
 	vm = vm_create_with_one_vcpu(&vcpu, guest_main);
@@ -151,4 +153,5 @@ int main(void)
 
 	enter_guest(vcpu);
 	kvm_vm_free(vm);
+	coverage_end();
 }

@@ -12,6 +12,8 @@
 #include "kvm_util.h"
 #include "processor.h"
 
+#include "coverage.h"
+
 /* CPUIDs known to differ */
 struct {
 	u32 function;
@@ -170,6 +172,7 @@ int main(void)
 	struct kvm_vm *vm;
 	int stage;
 
+	coverage_start();
 	vm = vm_create_with_one_vcpu(&vcpu, guest_main);
 
 	compare_cpuids(kvm_get_supported_cpuid(), vcpu->cpuid);
@@ -184,4 +187,5 @@ int main(void)
 	set_cpuid_after_run(vcpu);
 
 	kvm_vm_free(vm);
+	coverage_end();
 }

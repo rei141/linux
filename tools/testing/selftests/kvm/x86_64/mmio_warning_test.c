@@ -27,6 +27,7 @@
 #include <sys/wait.h>
 #include <test_util.h>
 #include <unistd.h>
+#include "coverage.h"
 
 #define NTHREAD 4
 #define NPROCESS 5
@@ -92,6 +93,7 @@ int get_warnings_count(void)
 int main(void)
 {
 	int warnings_before, warnings_after;
+	coverage_start();
 
 	TEST_REQUIRE(host_cpu_is_intel);
 
@@ -117,5 +119,6 @@ int main(void)
 	TEST_ASSERT(warnings_before == warnings_after,
 		   "Warnings found in kernel.  Run 'dmesg' to inspect them.");
 
+	coverage_end();
 	return 0;
 }

@@ -14,6 +14,7 @@
 #include "hyperv.h"
 #include "test_util.h"
 #include "vmx.h"
+#include "coverage.h"
 
 #define RECEIVER_VCPU_ID_1 2
 #define RECEIVER_VCPU_ID_2 65
@@ -248,6 +249,7 @@ int main(int argc, char *argv[])
 	int stage = 1, r;
 	struct ucall uc;
 
+	coverage_start();
 	vm = vm_create_with_one_vcpu(&vcpu[0], sender_guest_code);
 
 	/* Hypercall input/output */
@@ -306,6 +308,7 @@ done:
 	cancel_join_vcpu_thread(threads[0], vcpu[1]);
 	cancel_join_vcpu_thread(threads[1], vcpu[2]);
 	kvm_vm_free(vm);
+	coverage_end();
 
 	return r;
 }

@@ -13,6 +13,7 @@
 #include "test_util.h"
 #include "kvm_util.h"
 #include "vmx.h"
+#include "coverage.h"
 
 #define MAXPHYADDR 36
 
@@ -55,6 +56,7 @@ int main(int argc, char *argv[])
 	uint64_t gpa;
 	int rc;
 
+	coverage_start();
 	TEST_REQUIRE(kvm_has_cap(KVM_CAP_SMALLER_MAXPHYADDR));
 
 	vm = vm_create_with_one_vcpu(&vcpu, guest_code);
@@ -106,6 +108,7 @@ int main(int argc, char *argv[])
 	}
 
 	kvm_vm_free(vm);
+	coverage_end();
 
 	return 0;
 }

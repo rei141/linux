@@ -14,6 +14,7 @@
 #include "test_util.h"
 #include "kvm_util.h"
 #include "processor.h"
+#include "coverage.h"
 
 /*
  * In lieu of copying perf_event.h into tools...
@@ -764,6 +765,7 @@ int main(int argc, char *argv[])
 	struct kvm_vcpu *vcpu, *vcpu2 = NULL;
 	struct kvm_vm *vm;
 
+	coverage_start();
 	TEST_REQUIRE(kvm_has_cap(KVM_CAP_PMU_EVENT_FILTER));
 	TEST_REQUIRE(kvm_has_cap(KVM_CAP_PMU_EVENT_MASKED_EVENTS));
 
@@ -801,5 +803,6 @@ int main(int argc, char *argv[])
 
 	test_pmu_config_disable(guest_code);
 
+	coverage_end();
 	return 0;
 }
