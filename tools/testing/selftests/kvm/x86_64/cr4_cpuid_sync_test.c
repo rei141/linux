@@ -18,6 +18,7 @@
 
 #include "kvm_util.h"
 #include "processor.h"
+#include "coverage.h"
 
 static inline bool cr4_cpuid_is_sync(void)
 {
@@ -53,6 +54,7 @@ int main(int argc, char *argv[])
 	struct kvm_vm *vm;
 	struct kvm_sregs sregs;
 	struct ucall uc;
+	coverage_start();
 
 	TEST_REQUIRE(kvm_cpu_has(X86_FEATURE_XSAVE));
 
@@ -81,5 +83,6 @@ int main(int argc, char *argv[])
 
 done:
 	kvm_vm_free(vm);
+	coverage_end();
 	return 0;
 }

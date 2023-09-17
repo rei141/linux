@@ -7,6 +7,7 @@
 
 #include "kvm_util.h"
 #include "processor.h"
+#include "coverage.h"
 
 #define CPUID_MWAIT (1u << 3)
 
@@ -67,6 +68,7 @@ int main(int argc, char *argv[])
 	struct kvm_vm *vm;
 	struct ucall uc;
 	int testcase;
+	coverage_start();
 
 	TEST_REQUIRE(kvm_has_cap(KVM_CAP_DISABLE_QUIRKS2));
 
@@ -120,5 +122,6 @@ int main(int argc, char *argv[])
 
 done:
 	kvm_vm_free(vm);
+	coverage_end();
 	return 0;
 }

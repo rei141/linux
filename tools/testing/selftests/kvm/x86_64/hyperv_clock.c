@@ -8,6 +8,7 @@
 #include "kvm_util.h"
 #include "processor.h"
 #include "hyperv.h"
+#include "coverage.h"
 
 struct ms_hyperv_tsc_page {
 	volatile u32 tsc_sequence;
@@ -210,6 +211,7 @@ int main(void)
 	struct ucall uc;
 	vm_vaddr_t tsc_page_gva;
 	int stage;
+	coverage_start();
 
 	vm = vm_create_with_one_vcpu(&vcpu, guest_main);
 
@@ -257,4 +259,5 @@ int main(void)
 
 out:
 	kvm_vm_free(vm);
+	coverage_end();
 }

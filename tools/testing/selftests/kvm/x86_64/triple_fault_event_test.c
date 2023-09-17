@@ -9,6 +9,7 @@
 #include <sys/ioctl.h>
 
 #include "kselftest.h"
+#include "coverage.h"
 
 #define ARBITRARY_IO_PORT	0x2000
 
@@ -62,6 +63,7 @@ int main(void)
 	struct kvm_run *run;
 	struct kvm_vcpu_events events;
 	struct ucall uc;
+	coverage_start();
 
 	bool has_vmx = kvm_cpu_has(X86_FEATURE_VMX);
 	bool has_svm = kvm_cpu_has(X86_FEATURE_SVM);
@@ -120,5 +122,6 @@ int main(void)
 			TEST_FAIL("Unexpected ucall: %lu", uc.cmd);
 		}
 	}
+	coverage_end();
 	return 0;
 }

@@ -15,6 +15,7 @@
 
 #include "kvm_util.h"
 #include "processor.h"
+#include "coverage.h"
 
 /*
  * Assert that architectural dependency rules are satisfied, e.g. that AVX is
@@ -98,6 +99,7 @@ int main(int argc, char *argv[])
 	struct kvm_run *run;
 	struct kvm_vm *vm;
 	struct ucall uc;
+	coverage_start();
 
 	TEST_REQUIRE(kvm_cpu_has(X86_FEATURE_XSAVE));
 
@@ -128,5 +130,6 @@ int main(int argc, char *argv[])
 
 done:
 	kvm_vm_free(vm);
+	coverage_end();
 	return 0;
 }

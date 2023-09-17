@@ -14,11 +14,13 @@
 #include "test_util.h"
 #include "kvm_util.h"
 #include "processor.h"
+#include "coverage.h"
 
 int main(int argc, char *argv[])
 {
 	const struct kvm_msr_list *feature_list;
 	int i;
+	coverage_start();
 
 	/*
 	 * Skip the entire test if MSR_FEATURES isn't supported, other tests
@@ -32,4 +34,5 @@ int main(int argc, char *argv[])
 	feature_list = kvm_get_feature_msr_index_list();
 	for (i = 0; i < feature_list->nmsrs; i++)
 		kvm_get_feature_msr(feature_list->indices[i]);
+	coverage_end();
 }

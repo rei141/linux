@@ -12,6 +12,7 @@
 #include "processor.h"
 #include "svm_util.h"
 #include "kselftest.h"
+#include "coverage.h"
 
 #define SEV_POLICY_ES 0b100
 
@@ -395,6 +396,7 @@ static void test_sev_move_copy(void)
 
 int main(int argc, char *argv[])
 {
+	coverage_start();
 	TEST_REQUIRE(kvm_has_cap(KVM_CAP_VM_MOVE_ENC_CONTEXT_FROM));
 	TEST_REQUIRE(kvm_has_cap(KVM_CAP_VM_COPY_ENC_CONTEXT_FROM));
 
@@ -417,5 +419,6 @@ int main(int argc, char *argv[])
 			test_sev_mirror(/* es= */ true);
 		test_sev_mirror_parameters();
 	}
+	coverage_end();
 	return 0;
 }

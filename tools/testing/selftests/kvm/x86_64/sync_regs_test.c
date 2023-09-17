@@ -19,6 +19,7 @@
 #include "test_util.h"
 #include "kvm_util.h"
 #include "processor.h"
+#include "coverage.h"
 
 #define UCALL_PIO_PORT ((uint16_t)0x1000)
 
@@ -89,6 +90,7 @@ int main(int argc, char *argv[])
 	struct kvm_sregs sregs;
 	struct kvm_vcpu_events events;
 	int rv, cap;
+	coverage_start();
 
 	cap = kvm_check_cap(KVM_CAP_SYNC_REGS);
 	TEST_REQUIRE((cap & TEST_SYNC_FIELDS) == TEST_SYNC_FIELDS);
@@ -217,6 +219,7 @@ int main(int argc, char *argv[])
 		    regs.rbx);
 
 	kvm_vm_free(vm);
+	coverage_end();
 
 	return 0;
 }

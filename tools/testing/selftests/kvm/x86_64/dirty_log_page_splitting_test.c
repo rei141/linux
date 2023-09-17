@@ -17,6 +17,7 @@
 #include "test_util.h"
 #include "memstress.h"
 #include "guest_modes.h"
+#include "coverage.h"
 
 #define VCPUS		2
 #define SLOTS		2
@@ -213,6 +214,7 @@ static void help(char *name)
 int main(int argc, char *argv[])
 {
 	int opt;
+	coverage_start();
 
 	TEST_REQUIRE(get_kvm_param_bool("eager_page_split"));
 	TEST_REQUIRE(get_kvm_param_bool("tdp_mmu"));
@@ -254,6 +256,7 @@ int main(int argc, char *argv[])
 	} else {
 		pr_info("Skipping testing with MANUAL_PROTECT as it is not supported");
 	}
+	coverage_end();
 
 	return 0;
 }

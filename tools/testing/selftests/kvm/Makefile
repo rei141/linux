@@ -219,7 +219,7 @@ no-pie-option := $(call try-run, echo 'int main(void) { return 0; }' | \
 pgste-option = $(call try-run, echo 'int main(void) { return 0; }' | \
 	$(CC) -Werror -Wl$(comma)--s390-pgste -x c - -o "$$TMP",-Wl$(comma)--s390-pgste)
 
-LDLIBS += -ldl
+LDLIBS += -ldl -lelf
 LDFLAGS += -pthread $(no-pie-option) $(pgste-option)
 
 LIBKVM_C := $(filter %.c,$(LIBKVM))

@@ -10,6 +10,7 @@
 #include "kvm_util.h"
 #include "processor.h"
 #include "test_util.h"
+#include "coverage.h"
 
 struct xapic_vcpu {
 	struct kvm_vcpu *vcpu;
@@ -192,6 +193,7 @@ int main(int argc, char *argv[])
 		.is_x2apic = true,
 	};
 	struct kvm_vm *vm;
+	coverage_start();
 
 	vm = vm_create_with_one_vcpu(&x.vcpu, x2apic_guest_code);
 	test_icr(&x);
@@ -212,4 +214,5 @@ int main(int argc, char *argv[])
 	kvm_vm_free(vm);
 
 	test_apic_id();
+	coverage_end();
 }

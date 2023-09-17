@@ -21,6 +21,7 @@
 
 #include "kvm_util.h"
 #include "processor.h"
+#include "coverage.h"
 
 #define TEST_INVALID_CR_BIT(vcpu, cr, orig, bit)				\
 do {										\
@@ -80,6 +81,7 @@ int main(int argc, char *argv[])
 	struct kvm_vm *vm;
 	uint64_t cr4;
 	int rc, i;
+	coverage_start();
 
 	/*
 	 * Create a dummy VM, specifically to avoid doing KVM_SET_CPUID2, and
@@ -137,6 +139,7 @@ int main(int argc, char *argv[])
 		    sregs.apic_base);
 
 	kvm_vm_free(vm);
+	coverage_end();
 
 	return 0;
 }

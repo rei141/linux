@@ -11,6 +11,7 @@
 #include "test_util.h"
 #include "kvm_util.h"
 #include "apic.h"
+#include "coverage.h"
 
 #define TIMEOUT		5	/* seconds */
 
@@ -40,6 +41,7 @@ int main(void)
 	pthread_t thread;
 	time_t t;
 	int i;
+	coverage_start();
 
 	kvm_static_assert(KVM_MAX_VCPUS > MAX_XAPIC_ID);
 
@@ -69,6 +71,7 @@ int main(void)
 	ASSERT_EQ(pthread_join(thread, NULL), 0);
 
 	kvm_vm_free(vm);
+	coverage_end();
 
 	return 0;
 }

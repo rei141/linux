@@ -10,6 +10,7 @@
 #include "test_util.h"
 #include "kvm_util.h"
 #include "processor.h"
+#include "coverage.h"
 
 #include <stdint.h>
 #include <time.h>
@@ -89,6 +90,7 @@ static void *run_vcpu(void *_cpu_nr)
 
 int main(int argc, char *argv[])
 {
+	coverage_start();
 	TEST_REQUIRE(kvm_has_cap(KVM_CAP_VM_TSC_CONTROL));
 
 	vm = vm_create(NR_TEST_VCPUS);
@@ -110,5 +112,6 @@ int main(int argc, char *argv[])
 	TEST_ASSERT(!failures, "TSC sync failed");
 	pthread_spin_destroy(&create_lock);
 	kvm_vm_free(vm);
+	coverage_end();
 	return 0;
 }

@@ -11,6 +11,7 @@
 #include <linux/bitmap.h>
 #include "kvm_util.h"
 #include "vmx.h"
+#include "coverage.h"
 
 static void vmx_fixed1_msr_test(struct kvm_vcpu *vcpu, uint32_t msr_index,
 				  uint64_t mask)
@@ -117,6 +118,7 @@ int main(void)
 {
 	struct kvm_vcpu *vcpu;
 	struct kvm_vm *vm;
+	coverage_start();
 
 	TEST_REQUIRE(kvm_has_cap(KVM_CAP_DISABLE_QUIRKS2));
 	TEST_REQUIRE(kvm_cpu_has(X86_FEATURE_VMX));
@@ -128,4 +130,5 @@ int main(void)
 	ia32_feature_control_msr_test(vcpu);
 
 	kvm_vm_free(vm);
+	coverage_end();
 }

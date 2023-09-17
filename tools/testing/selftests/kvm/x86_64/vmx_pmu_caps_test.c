@@ -18,6 +18,7 @@
 
 #include "kvm_util.h"
 #include "vmx.h"
+#include "coverage.h"
 
 union perf_capabilities {
 	struct {
@@ -235,6 +236,7 @@ static void test_lbr_perf_capabilities(union perf_capabilities host_cap)
 int main(int argc, char *argv[])
 {
 	union perf_capabilities host_cap;
+	coverage_start();
 
 	TEST_REQUIRE(get_kvm_param_bool("enable_pmu"));
 	TEST_REQUIRE(kvm_cpu_has(X86_FEATURE_PDCM));
@@ -252,4 +254,5 @@ int main(int argc, char *argv[])
 	test_immutable_perf_capabilities(host_cap);
 	test_guest_wrmsr_perf_capabilities(host_cap);
 	test_lbr_perf_capabilities(host_cap);
+	coverage_end();
 }

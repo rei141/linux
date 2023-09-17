@@ -19,6 +19,7 @@
 #include "kvm_util.h"
 #include "processor.h"
 #include "vmx.h"
+#include "coverage.h"
 
 static void guest_code(void)
 {
@@ -133,6 +134,7 @@ int main(int argc, char *argv[])
 	struct kvm_vm *vm;
 	const struct kvm_cpuid2 *hv_cpuid_entries;
 	struct kvm_vcpu *vcpu;
+	coverage_start();
 
 	TEST_REQUIRE(kvm_has_cap(KVM_CAP_HYPERV_CPUID));
 
@@ -169,6 +171,7 @@ do_sys:
 
 out:
 	kvm_vm_free(vm);
+	coverage_end();
 
 	return 0;
 }

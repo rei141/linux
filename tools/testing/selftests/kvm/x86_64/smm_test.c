@@ -18,6 +18,7 @@
 
 #include "vmx.h"
 #include "svm_util.h"
+#include "coverage.h"
 
 #define SMRAM_SIZE 65536
 #define SMRAM_MEMSLOT ((1 << 16) | 1)
@@ -135,6 +136,7 @@ int main(int argc, char *argv[])
 	struct kvm_vm *vm;
 	struct kvm_x86_state *state;
 	int stage, stage_reported;
+	coverage_start();
 
 	TEST_REQUIRE(kvm_has_cap(KVM_CAP_X86_SMM));
 
@@ -207,4 +209,5 @@ int main(int argc, char *argv[])
 
 done:
 	kvm_vm_free(vm);
+	coverage_end();
 }

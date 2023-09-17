@@ -12,6 +12,7 @@
 #include "processor.h"
 #include "svm_util.h"
 #include "apic.h"
+#include "coverage.h"
 
 bool vintr_irq_called;
 bool intr_irq_called;
@@ -88,6 +89,7 @@ int main(int argc, char *argv[])
 	vm_vaddr_t svm_gva;
 	struct kvm_vm *vm;
 	struct ucall uc;
+	coverage_start();
 
 	TEST_REQUIRE(kvm_cpu_has(X86_FEATURE_SVM));
 
@@ -117,5 +119,6 @@ int main(int argc, char *argv[])
 	}
 done:
 	kvm_vm_free(vm);
+	coverage_end();
 	return 0;
 }

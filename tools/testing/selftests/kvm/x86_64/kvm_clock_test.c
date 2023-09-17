@@ -15,6 +15,7 @@
 #include "test_util.h"
 #include "kvm_util.h"
 #include "processor.h"
+#include "coverage.h"
 
 struct test_case {
 	uint64_t kvmclock_base;
@@ -175,6 +176,7 @@ int main(void)
 	vm_paddr_t pvti_gpa;
 	struct kvm_vm *vm;
 	int flags;
+	coverage_start();
 
 	flags = kvm_check_cap(KVM_CAP_ADJUST_CLOCK);
 	TEST_REQUIRE(flags & KVM_CLOCK_REALTIME);
@@ -189,4 +191,5 @@ int main(void)
 
 	enter_guest(vcpu);
 	kvm_vm_free(vm);
+	coverage_end();
 }

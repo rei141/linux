@@ -30,6 +30,7 @@
 #include "processor.h"
 #include "test_util.h"
 #include "apic.h"
+#include "coverage.h"
 
 #define SYNC_FIRST_UCNA 9
 #define SYNC_SECOND_UCNA 10
@@ -269,6 +270,7 @@ int main(int argc, char *argv[])
 	struct kvm_vcpu *cmcidis_vcpu;
 	struct kvm_vcpu *cmci_vcpu;
 
+	coverage_start();
 	kvm_check_cap(KVM_CAP_MCE);
 
 	vm = __vm_create(VM_MODE_DEFAULT, 3, 0);
@@ -299,4 +301,5 @@ int main(int argc, char *argv[])
 	run_vcpu_expect_gp(cmci_vcpu);
 
 	kvm_vm_free(vm);
+	coverage_end();
 }

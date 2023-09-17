@@ -9,6 +9,7 @@
 #include "kvm_util.h"
 #include "processor.h"
 #include "apic.h"
+#include "coverage.h"
 
 #define DR6_BD		(1 << 13)
 #define DR7_GD		(1 << 13)
@@ -94,6 +95,7 @@ int main(void)
 		2,		/* rdmsr */
 		1,		/* cli */
 	};
+	coverage_start();
 
 	TEST_REQUIRE(kvm_has_cap(KVM_CAP_SET_GUEST_DEBUG));
 
@@ -209,6 +211,7 @@ int main(void)
 	TEST_ASSERT(cmd == UCALL_DONE, "UCALL_DONE");
 
 	kvm_vm_free(vm);
+	coverage_end();
 
 	return 0;
 }

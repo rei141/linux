@@ -19,6 +19,8 @@
 
 #include <sys/eventfd.h>
 
+#include "coverage.h"
+
 #define SHINFO_REGION_GVA	0xc0000000ULL
 #define SHINFO_REGION_GPA	0xc0000000ULL
 #define SHINFO_REGION_SLOT	10
@@ -435,6 +437,7 @@ int main(int argc, char *argv[])
 	pthread_t thread;
 	bool verbose;
 	int ret;
+	coverage_start();
 
 	verbose = argc > 1 && (!strncmp(argv[1], "-v", 3) ||
 			       !strncmp(argv[1], "--verbose", 10));
@@ -1115,5 +1118,6 @@ int main(int argc, char *argv[])
 	}
 
 	kvm_vm_free(vm);
+	coverage_end();
 	return 0;
 }

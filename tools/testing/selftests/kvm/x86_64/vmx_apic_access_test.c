@@ -27,6 +27,7 @@
 #include <sys/ioctl.h>
 
 #include "kselftest.h"
+#include "coverage.h"
 
 static void l2_guest_code(void)
 {
@@ -79,6 +80,7 @@ int main(int argc, char *argv[])
 
 	struct kvm_vcpu *vcpu;
 	struct kvm_vm *vm;
+	coverage_start();
 
 	TEST_REQUIRE(kvm_cpu_has(X86_FEATURE_VMX));
 
@@ -120,5 +122,6 @@ int main(int argc, char *argv[])
 		}
 	}
 	kvm_vm_free(vm);
+	coverage_end();
 	return 0;
 }

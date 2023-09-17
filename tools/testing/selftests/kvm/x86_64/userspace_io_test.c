@@ -9,6 +9,7 @@
 
 #include "kvm_util.h"
 #include "processor.h"
+#include "coverage.h"
 
 static void guest_ins_port80(uint8_t *buffer, unsigned int count)
 {
@@ -55,6 +56,7 @@ int main(int argc, char *argv[])
 	struct kvm_run *run;
 	struct kvm_vm *vm;
 	struct ucall uc;
+	coverage_start();
 
 	vm = vm_create_with_one_vcpu(&vcpu, guest_code);
 	run = vcpu->run;
@@ -97,5 +99,6 @@ int main(int argc, char *argv[])
 	}
 
 	kvm_vm_free(vm);
+	coverage_end();
 	return 0;
 }

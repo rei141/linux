@@ -14,6 +14,7 @@
 #include "kvm_util.h"
 #include "vmx.h"
 #include "kselftest.h"
+#include "coverage.h"
 
 /* L2 is scaled up (from L1's perspective) by this factor */
 #define L2_SCALE_FACTOR 4ULL
@@ -145,6 +146,7 @@ int main(int argc, char *argv[])
 	uint64_t l0_tsc_freq = 0;
 	uint64_t l1_tsc_freq = 0;
 	uint64_t l2_tsc_freq = 0;
+	coverage_start();
 
 	TEST_REQUIRE(kvm_cpu_has(X86_FEATURE_VMX));
 	TEST_REQUIRE(kvm_has_cap(KVM_CAP_TSC_CONTROL));
@@ -219,5 +221,6 @@ int main(int argc, char *argv[])
 
 done:
 	kvm_vm_free(vm);
+	coverage_end();
 	return 0;
 }

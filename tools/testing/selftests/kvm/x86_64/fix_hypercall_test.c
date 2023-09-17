@@ -13,6 +13,7 @@
 #include "test_util.h"
 #include "kvm_util.h"
 #include "processor.h"
+#include "coverage.h"
 
 /* VMCALL and VMMCALL are both 3-byte opcodes. */
 #define HYPERCALL_INSN_SIZE	3
@@ -128,8 +129,10 @@ static void test_fix_hypercall(bool disable_quirk)
 
 int main(void)
 {
+	coverage_start();
 	TEST_REQUIRE(kvm_check_cap(KVM_CAP_DISABLE_QUIRKS2) & KVM_X86_QUIRK_FIX_HYPERCALL_INSN);
 
 	test_fix_hypercall(false);
 	test_fix_hypercall(true);
+	coverage_end();
 }

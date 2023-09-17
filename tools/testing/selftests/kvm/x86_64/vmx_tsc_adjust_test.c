@@ -27,6 +27,7 @@
 #include <sys/ioctl.h>
 
 #include "kselftest.h"
+#include "coverage.h"
 
 #ifndef MSR_IA32_TSC_ADJUST
 #define MSR_IA32_TSC_ADJUST 0x3b
@@ -121,6 +122,7 @@ int main(int argc, char *argv[])
 {
 	vm_vaddr_t vmx_pages_gva;
 	struct kvm_vcpu *vcpu;
+	coverage_start();
 
 	TEST_REQUIRE(kvm_cpu_has(X86_FEATURE_VMX));
 
@@ -152,5 +154,6 @@ int main(int argc, char *argv[])
 
 done:
 	kvm_vm_free(vm);
+	coverage_end();
 	return 0;
 }

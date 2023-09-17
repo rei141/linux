@@ -32,6 +32,7 @@
 #include "processor.h"
 #include "test_util.h"
 #include "vmx.h"
+#include "coverage.h"
 
 /* Default running time for the test */
 #define DEFAULT_RUN_SECS 3
@@ -401,6 +402,7 @@ int main(int argc, char *argv[])
 	struct thread_params params[2];
 	struct kvm_vm *vm;
 	uint64_t *pipis_rcvd;
+	coverage_start();
 
 	get_cmdline_args(argc, argv, &run_secs, &migrate, &delay_usecs);
 	if (run_secs <= 0)
@@ -486,6 +488,7 @@ int main(int argc, char *argv[])
 		data->migrations_attempted, data->migrations_completed);
 
 	kvm_vm_free(vm);
+	coverage_end();
 
 	return 0;
 }

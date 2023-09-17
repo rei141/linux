@@ -17,6 +17,7 @@
 #include <test_util.h>
 #include "kvm_util.h"
 #include "processor.h"
+#include "coverage.h"
 
 #define HPAGE_SLOT		10
 #define HPAGE_GPA		(4UL << 30) /* 4G prevents collision w/ slot 0 */
@@ -237,6 +238,7 @@ int main(int argc, char **argv)
 {
 	int reclaim_period_ms = 0, token = 0, opt;
 	bool reboot_permissions = false;
+	coverage_start();
 
 	while ((opt = getopt(argc, argv, "hp:t:r")) != -1) {
 		switch (opt) {
@@ -266,6 +268,7 @@ int main(int argc, char **argv)
 	run_test(reclaim_period_ms, false, reboot_permissions);
 	run_test(reclaim_period_ms, true, reboot_permissions);
 
+	coverage_end();
 	return 0;
 }
 

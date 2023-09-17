@@ -6,6 +6,7 @@
 #include "processor.h"
 #include "vmx.h"
 #include "svm_util.h"
+#include "coverage.h"
 
 #define L2_GUEST_STACK_SIZE 256
 
@@ -222,6 +223,7 @@ int main(int argc, char *argv[])
 	struct kvm_vcpu_events events;
 	struct kvm_vcpu *vcpu;
 	struct kvm_vm *vm;
+	coverage_start();
 
 	TEST_REQUIRE(kvm_has_cap(KVM_CAP_EXCEPTION_PAYLOAD));
 	TEST_REQUIRE(kvm_cpu_has(X86_FEATURE_SVM) || kvm_cpu_has(X86_FEATURE_VMX));
@@ -289,4 +291,5 @@ int main(int argc, char *argv[])
 	assert_ucall_vector(vcpu, -1);
 
 	kvm_vm_free(vm);
+	coverage_end();
 }

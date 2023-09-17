@@ -18,6 +18,8 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 
+#include "coverage.h"
+
 /*
  * Mirror of VMCS12_REVISION in arch/x86/kvm/vmx/vmcs12.h. If that value
  * changes this should be updated.
@@ -248,6 +250,7 @@ int main(int argc, char *argv[])
 	struct kvm_vm *vm;
 	struct kvm_nested_state state;
 	struct kvm_vcpu *vcpu;
+	coverage_start();
 
 	have_evmcs = kvm_check_cap(KVM_CAP_HYPERV_ENLIGHTENED_VMCS);
 
@@ -296,5 +299,6 @@ int main(int argc, char *argv[])
 	test_vmx_nested_state(vcpu);
 
 	kvm_vm_free(vm);
+	coverage_end();
 	return 0;
 }

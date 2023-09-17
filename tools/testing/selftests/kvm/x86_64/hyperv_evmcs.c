@@ -18,6 +18,7 @@
 
 #include "hyperv.h"
 #include "vmx.h"
+#include "coverage.h"
 
 static int ud_count;
 
@@ -239,6 +240,7 @@ int main(int argc, char *argv[])
 	struct kvm_vm *vm;
 	struct ucall uc;
 	int stage;
+	coverage_start();
 
 	vm = vm_create_with_one_vcpu(&vcpu, guest_code);
 
@@ -306,4 +308,5 @@ int main(int argc, char *argv[])
 
 done:
 	kvm_vm_free(vm);
+	coverage_end();
 }

@@ -9,6 +9,7 @@
 #include <sys/time.h>
 
 #include "kselftest.h"
+#include "coverage.h"
 
 static void guest_ud_handler(struct ex_regs *regs)
 {
@@ -108,6 +109,7 @@ int main(int argc, char *argv[])
 {
 	struct kvm_vcpu *vcpu;
 	struct kvm_vm *vm;
+	coverage_start();
 
 	TEST_REQUIRE(host_cpu_is_intel);
 	TEST_REQUIRE(!vm_is_unrestricted_guest(NULL));
@@ -142,4 +144,5 @@ int main(int argc, char *argv[])
 
 	set_timer();
 	run_vcpu_with_invalid_state(vcpu);
+	coverage_end();
 }

@@ -15,6 +15,7 @@
 #include "kvm_util.h"
 #include "processor.h"
 #include "apic.h"
+#include "coverage.h"
 
 static void guest_bsp_vcpu(void *arg)
 {
@@ -121,6 +122,7 @@ static void check_set_bsp_busy(void)
 
 int main(int argc, char *argv[])
 {
+	coverage_start();
 	TEST_REQUIRE(kvm_has_cap(KVM_CAP_SET_BOOT_CPU_ID));
 
 	run_vm_bsp(0);
@@ -128,4 +130,5 @@ int main(int argc, char *argv[])
 	run_vm_bsp(0);
 
 	check_set_bsp_busy();
+	coverage_end();
 }

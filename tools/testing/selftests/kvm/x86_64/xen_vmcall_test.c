@@ -10,6 +10,7 @@
 #include "test_util.h"
 #include "kvm_util.h"
 #include "processor.h"
+#include "coverage.h"
 
 #define HCALL_REGION_GPA	0xc0000000ULL
 #define HCALL_REGION_SLOT	10
@@ -83,6 +84,7 @@ int main(int argc, char *argv[])
 	unsigned int xen_caps;
 	struct kvm_vcpu *vcpu;
 	struct kvm_vm *vm;
+	coverage_start();
 
 	xen_caps = kvm_check_cap(KVM_CAP_XEN_HVM);
 	TEST_REQUIRE(xen_caps & KVM_XEN_HVM_CONFIG_INTERCEPT_HCALL);
@@ -138,5 +140,6 @@ int main(int argc, char *argv[])
 	}
 done:
 	kvm_vm_free(vm);
+	coverage_end();
 	return 0;
 }

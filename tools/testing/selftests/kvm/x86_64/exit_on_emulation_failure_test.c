@@ -10,6 +10,7 @@
 #include "flds_emulation.h"
 
 #include "test_util.h"
+#include "coverage.h"
 
 #define MMIO_GPA	0x700000000
 #define MMIO_GVA	MMIO_GPA
@@ -25,6 +26,7 @@ int main(int argc, char *argv[])
 {
 	struct kvm_vcpu *vcpu;
 	struct kvm_vm *vm;
+	coverage_start();
 
 	TEST_REQUIRE(kvm_has_cap(KVM_CAP_EXIT_ON_EMULATION_FAILURE));
 
@@ -38,5 +40,6 @@ int main(int argc, char *argv[])
 	ASSERT_EQ(get_ucall(vcpu, NULL), UCALL_DONE);
 
 	kvm_vm_free(vm);
+	coverage_end();
 	return 0;
 }

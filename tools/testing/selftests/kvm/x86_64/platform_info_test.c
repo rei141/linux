@@ -20,6 +20,7 @@
 #include "test_util.h"
 #include "kvm_util.h"
 #include "processor.h"
+#include "coverage.h"
 
 #define MSR_PLATFORM_INFO_MAX_TURBO_RATIO 0xff00
 
@@ -63,6 +64,7 @@ int main(int argc, char *argv[])
 	struct kvm_vcpu *vcpu;
 	struct kvm_vm *vm;
 	uint64_t msr_platform_info;
+	coverage_start();
 
 	TEST_REQUIRE(kvm_has_cap(KVM_CAP_MSR_PLATFORM_INFO));
 
@@ -76,6 +78,7 @@ int main(int argc, char *argv[])
 	vcpu_set_msr(vcpu, MSR_PLATFORM_INFO, msr_platform_info);
 
 	kvm_vm_free(vm);
+	coverage_end();
 
 	return 0;
 }
