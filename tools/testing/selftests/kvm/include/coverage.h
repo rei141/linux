@@ -180,11 +180,11 @@ static void check_cpu_vendor(void) {
     if (!base_path) { \
         base_path = "/tmp"; \
     } \
-    sprintf(coverage_file_path, "%s/intel_%s", base_path, COVERAGE_FILENAME); \
+    sprintf(coverage_file_path, "%s/COVERAGE_ARCH_%s", base_path, COVERAGE_FILENAME); \
     kvm_arch_coverage_file = fopen(coverage_file_path, "w"); \
     if (kvm_arch_coverage_file == NULL) \
         perror("fopen"), exit(1); \
-    sprintf(coverage_file_path, "%s/kvm_%s", base_path, COVERAGE_FILENAME); \
+    sprintf(coverage_file_path, "%s/COVERAGE_KVM_%s", base_path, COVERAGE_FILENAME); \
     kvm_coverage_file = fopen(coverage_file_path, "w"); \
     if (kvm_coverage_file == NULL) \
         perror("fopen"), exit(1); \

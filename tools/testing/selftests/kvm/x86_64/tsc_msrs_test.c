@@ -158,7 +158,7 @@ int main(void)
 	ASSERT_EQ(rounded_host_rdmsr(MSR_IA32_TSC_ADJUST), val - HOST_ADJUST);
 
 	kvm_vm_free(vm);
+	coverage_end();
 
 	ksft_finished();	/* Print results and exit() accordingly */
-	coverage_end();
 }

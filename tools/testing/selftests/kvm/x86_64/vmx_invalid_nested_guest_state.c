@@ -93,6 +93,7 @@ int main(int argc, char *argv[])
 	vcpu_sregs_set(vcpu, &sregs);
 
 	vcpu_run(vcpu);
+	coverage_end();
 
 	switch (get_ucall(vcpu, &uc)) {
 	case UCALL_DONE:
@@ -102,5 +103,4 @@ int main(int argc, char *argv[])
 	default:
 		TEST_FAIL("Unexpected ucall: %lu", uc.cmd);
 	}
-	coverage_end();
 }
